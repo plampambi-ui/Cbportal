@@ -6,6 +6,7 @@ use App\Filament\Clusters\SettingsCluster;
 use App\Filament\Clusters\SettingsCluster\Resources\LeadSourceResource\Pages;
 use App\Filament\Clusters\SettingsCluster\Resources\LeadSourceResource\RelationManagers;
 use App\Models\LeadSource;
+use App\Models\LeadStatus;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -57,7 +58,10 @@ class LeadSourceResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                ->visible(function (LeadStatus $record) {
+                    return !$record->client;
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

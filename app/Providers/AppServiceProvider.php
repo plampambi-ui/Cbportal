@@ -52,10 +52,21 @@ class AppServiceProvider extends ServiceProvider
 
         CreateAction::configureUsing(function(CreateAction $action) {
             $action->icon('heroicon-o-plus');
+            $action->slideOver();
+            $action->modalHeading(__('New entry'));
+            $action->modalIcon('heroicon-o-plus');
         });
 
-        TableCreateAction::configureUsing(function (TableCreateAction $action) {
+        \Filament\Tables\Actions\EditAction::configureUsing(function(\Filament\Tables\Actions\EditAction $action) {
+            $action->icon('heroicon-o-pencil');
+            $action->slideOver();
+            $action->modalHeading(__('Edit entry'));
+            $action->modalIcon('heroicon-o-pencil');
+        });
+
+        \Filament\Tables\Actions\CreateAction::configureUsing(function (TableCreateAction $action) {
             $action->icon('heroicon-o-plus');
+            $action->slideOver();
         });
     }
 }

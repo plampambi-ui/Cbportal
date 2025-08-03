@@ -15,13 +15,21 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContractResource extends Resource
 {
     protected static ?string $model = Contract::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar';
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return false; //Not active for now.
+    }
 
     public static function form(Form $form): Form
     {
