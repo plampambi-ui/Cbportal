@@ -16,7 +16,7 @@ class Event extends BaseModel implements Eventable
         'color' => 'array'
     ];
 
-    public function toEvent(): array|CalendarEvent
+    public function toCalendarEvent(): array|CalendarEvent
     {
         return CalendarEvent::make($this)
             ->key($this->id)
