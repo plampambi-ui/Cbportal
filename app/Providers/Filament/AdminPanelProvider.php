@@ -9,7 +9,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -27,24 +26,14 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->colors([
-                'primary' => Color::Amber,
-            ])
             ->font('Inter')
             ->databaseNotifications()
-            ->colors([
-                'primary' => '#014786',
-            ])
+            ->colors(['primary' => '#014786'])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
+            ->pages([Pages\Dashboard::class])
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
+            ->widgets([Widgets\AccountWidget::class, Widgets\FilamentInfoWidget::class])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -60,12 +49,8 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled()
-                    ->users([
-                        'Admin' => 'admin@admin.com',
-                    ])
+                    ->users(['Admin' => 'admin@org1.com']),
             ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ->authMiddleware([Authenticate::class]);
     }
 }
