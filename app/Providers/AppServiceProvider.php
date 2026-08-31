@@ -14,27 +14,23 @@ use Illuminate\View\View;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        URL::forceScheme('https');
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
 
         FilamentView::registerRenderHook(
             PanelsRenderHook::CONTENT_START,
             fn(): View => view('announcements'),
         );
 
-        \BezhanSalleh\PanelSwitch\PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
+        PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch): void {
             $panelSwitch->panels([
                 'project',
                 'app',
@@ -46,25 +42,25 @@ class AppServiceProvider extends ServiceProvider
 
     private function customizeFilamentActions(): void
     {
-        Select::configureUsing(function (Select $select) {
+        Select::configureUsing(function (Select $select): void {
             $select->native(false);
         });
 
-        CreateAction::configureUsing(function(CreateAction $action) {
+        CreateAction::configureUsing(function (CreateAction $action): void {
             $action->icon('heroicon-o-plus');
             $action->slideOver();
             $action->modalHeading(__('New entry'));
             $action->modalIcon('heroicon-o-plus');
         });
 
-        \Filament\Tables\Actions\EditAction::configureUsing(function(\Filament\Tables\Actions\EditAction $action) {
+        \Filament\Tables\Actions\EditAction::configureUsing(function (\Filament\Tables\Actions\EditAction $action): void {
             $action->icon('heroicon-o-pencil');
             $action->slideOver();
             $action->modalHeading(__('Edit entry'));
             $action->modalIcon('heroicon-o-pencil');
         });
 
-        \Filament\Tables\Actions\CreateAction::configureUsing(function (TableCreateAction $action) {
+        TableCreateAction::configureUsing(function (TableCreateAction $action): void {
             $action->icon('heroicon-o-plus');
             $action->slideOver();
         });
