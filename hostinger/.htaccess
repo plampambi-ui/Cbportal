@@ -1,7 +1,12 @@
 RewriteEngine On
 RewriteBase /
+Options -Indexes
+
+RewriteRule ^login/?$ login.php [L,QSA]
+RewriteRule ^logout/?$ index.php?page=logout [L,QSA]
+RewriteRule ^(clients|projects|tasks|tickets|calendar|client-new|project-new|save|delete)/?$ index.php?page=$1 [L,QSA]
+RewriteRule ^$ index.php [L,QSA]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [L,QSA]
-
-Options -Indexes
