@@ -7,5 +7,73 @@
 }
 
 .fi-btn {
-    @apply rounded-md;
+    @apply rounded-lg;
+}
+
+/* C'est Bon Portal — responsive/mobile pass */
+.fi-sidebar {
+    @apply shadow-none;
+}
+
+.fi-topbar {
+    @apply sticky top-0 z-40;
+}
+
+.fi-main-ctn,
+.fi-page {
+    @apply max-w-full;
+}
+
+.fi-main-ctn {
+    @apply px-3 sm:px-6;
+}
+
+.fi-header-heading {
+    @apply text-xl sm:text-2xl;
+}
+
+.fi-ta-ctn,
+.fi-fo-component-ctn,
+.fi-wi-stats-overview-stat {
+    @apply rounded-xl;
+}
+
+@media (max-width: 640px) {
+    .fi-main-ctn {
+        padding-left: .75rem;
+        padding-right: .75rem;
+    }
+
+    .fi-page-header-main-ctn,
+    .fi-page-header-actions {
+        width: 100%;
+    }
+
+    .fi-page-header-actions {
+        flex-wrap: wrap;
+    }
+
+    .fi-btn {
+        min-height: 2.75rem;
+    }
+
+    .fi-input-wrp input,
+    .fi-select input,
+    .fi-textarea textarea {
+        font-size: 16px;
+    }
+
+    .fi-ta-content {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .fi-ta-table {
+        min-width: 640px;
+    }
+
+    .fi-modal {
+        margin: .75rem;
+        max-height: calc(100dvh - 1.5rem);
+    }
 }

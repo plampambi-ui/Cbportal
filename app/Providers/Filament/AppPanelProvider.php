@@ -2,7 +2,11 @@
 
 namespace App\Providers\Filament;
 
-use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+use App\Filament\Resources\AnnouncementResource;
+use App\Filament\Resources\ClientResource;
+use App\Filament\Resources\ProjectResource;
+use App\Filament\Resources\TaskResource;
+use App\Filament\Resources\TicketResource;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -10,8 +14,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
-use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -20,8 +22,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Illuminate\View\View;
-use Rmsramos\Activitylog\ActivitylogPlugin;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -35,15 +35,17 @@ class AppPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/app/theme.css')
             ->font('Inter')
             ->databaseNotifications()
-            ->colors([
-                'primary' => '#014786',
+            ->colors(['primary' => '#014786'])
+            // Client-facing panel: expose only the core customer workflow.
+            ->resources([
+                AnnouncementResource::class,
+                ClientResource::class,
+                ProjectResource::class,
+                TaskResource::class,
+                TicketResource::class,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
+            ->pages([Pages\Dashboard::class])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
@@ -61,15 +63,12 @@ class AppPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                ActivitylogPlugin::make()
-                    ->navigationGroup(__('Utilities')),
-                QuickCreatePlugin::make(),
                 FilamentDeveloperLoginsPlugin::make()
                     ->switchable(false)
                     ->enabled()
                     ->users([
                         'Admin' => 'admin@org1.com',
-                    ])
+                    ]),
             ])
             ->authMiddleware([
                 Authenticate::class,
